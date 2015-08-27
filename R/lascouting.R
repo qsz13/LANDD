@@ -1,7 +1,7 @@
 #' Find the liquid association scouting genes.
 #' 
 #' \code{lascouting()} is used to find the liquid association scouting gene 
-#' @useDynLib LAS
+#' @useDynLib LANDD
 #' @param network.graph An igraph object representing the gene network.
 #' @param express.matrix A matrix representing the expression matrix for the genes in gene 
 #' network. Row names are the gene ids in gene network.
@@ -10,7 +10,12 @@
 #' @return A logical matrix representing the LA-scouting genes for each gene. Rows represent 
 #' the ego gene id and columns represents the LA-scouting genes.
 #' @export
-#' 
+#' @import igraph
+#' @importFrom doParallel registerDoParallel
+#' @importFrom foreach %dopar%
+#' @importFrom foreach foreach
+#' @importFrom parallel makeCluster
+#' @importFrom fdrtool fdrtool
 #' 
 lascouting <- function(network.graph, express.matrix, k = 2, n.cores = 4) {
   network.node <- V(network.graph)$name

@@ -18,8 +18,8 @@
 #' @return A matrix representing the weights calculated using kernel density for each gene. Each row is an ego gene, columns
 #' are the weights of potential scouting genes for the gene.  
 #' @export
-#' 
-#' 
+#' @import igraph
+
 graph.kd <- function(relate.matrix, network.graph, smoothing.normalize = c("one", "squareM", "none")) {
   smoothing.normalize <- match.arg(smoothing.normalize)
   
@@ -29,7 +29,7 @@ graph.kd <- function(relate.matrix, network.graph, smoothing.normalize = c("one"
     common.node <- getCommonNode(network.graph, relate.matrix)
     network.graph <- cleanGraph(network.graph, common.node)
   }
-  
+  #weight = c(dnorm(0),dnorm(1),dnorm(2))
   weight0 <- dnorm(0)
   weight1 <- dnorm(1)
   weight2 <- dnorm(2)

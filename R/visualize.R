@@ -12,7 +12,6 @@
 #' @return a graph of gene X, Y and W
 #' @export 
 #' 
-#' 
 visualize <- function(graph, kernel.result, x, k = 2, cutoff = 1, path = NULL) {
   
   X <- as.character(x)

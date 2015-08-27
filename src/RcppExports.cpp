@@ -7,7 +7,7 @@ using namespace Rcpp;
 
 // stl_sort
 NumericVector stl_sort(NumericVector x);
-RcppExport SEXP LAS_stl_sort(SEXP xSEXP) {
+RcppExport SEXP LANDD_stl_sort(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
@@ -18,7 +18,7 @@ END_RCPP
 }
 // normalizeInput
 void normalizeInput(NumericVector& x);
-RcppExport SEXP LAS_normalizeInput(SEXP xSEXP) {
+RcppExport SEXP LANDD_normalizeInput(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope __rngScope;
     Rcpp::traits::input_parameter< NumericVector& >::type x(xSEXP);
@@ -28,7 +28,7 @@ END_RCPP
 }
 // normalizeInputMatrix
 NumericMatrix normalizeInputMatrix(NumericMatrix& x);
-RcppExport SEXP LAS_normalizeInputMatrix(SEXP xSEXP) {
+RcppExport SEXP LANDD_normalizeInputMatrix(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;

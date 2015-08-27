@@ -7,6 +7,16 @@ Author: Shangzhao Qiu, Yan Yan, Tianwei Yu
 Maintainer: Shangzhao Qiu <qsz1328@gmail.com>
 Description: using Liquid Association for Network Dynamics Detection
 License: GPL (>= 2)
-Imports:  BH
+Imports:
+    igraph,
+    fdrtool,
+    foreach,
+    doParallel,
+    GOstats,
+    GOSemSim,
+    GGally,
+    intergraph,
+    sna,
+    ggplot2
 LinkingTo: Rcpp,BH
-Depends: foreach, doParallel, igraph, GOstats, GOSemSim, Rcpp, fdrtool, GGally, intergraph,sna,ggplot2
+Depends: 
