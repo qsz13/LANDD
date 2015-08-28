@@ -15,6 +15,7 @@
 #' @importFrom foreach %dopar%
 #' @importFrom foreach foreach
 #' @importFrom parallel makeCluster
+#' @importFrom parallel stopCluster
 #' @importFrom fdrtool fdrtool
 #' 
 lascouting <- function(network.graph, express.matrix, k = 2, n.cores = 4) {
