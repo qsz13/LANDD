@@ -19,6 +19,7 @@
 #' @importFrom parallel makeCluster
 #' @importFrom parallel stopCluster
 #' @importFrom fdrtool fdrtool
+#' @importFrom Matrix Matrix
 #' 
 #' 
 lascouting <- function(network.graph, express.matrix, k = 2, n.cores = 4) {
