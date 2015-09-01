@@ -23,7 +23,6 @@
 #' @importFrom parallel makeCluster
 #' @import GOstats
 #' @import GOSemSim
-
 getgobp <- function(graph, z.matrix, k = 2, n.cores = 4, cutoff = 1,community = TRUE, community.min = 5, term.limit = NA, output.distance = TRUE) {
   cl <- makeCluster(n.cores, outfile = "")
   all.entrez <- colnames(z.matrix)
@@ -53,7 +52,7 @@ getgobp <- function(graph, z.matrix, k = 2, n.cores = 4, cutoff = 1,community = 
         }
         xgo <- paste(xgo$Term, signif(xgo$Pvalue, digits = 5), sep = ": ", collapse = "\n")
       }
-      xk <- V(graph)[unlist(neighborhood(graph, k, nodes = x))]$name
+      xk <- V(graph)[unlist(igraph::neighborhood(graph, k, nodes = x))]$name
       
       sel.entrez <- xk
       xkgo <- getGO(sel.entrez, all.entrez)
@@ -73,7 +72,7 @@ getgobp <- function(graph, z.matrix, k = 2, n.cores = 4, cutoff = 1,community = 
         return(NULL)
       } else {
         print(x)
-        if(distance) {
+        if(output.distance) {
           w <- paste(w.result[, 1], collapse = " ")
           wgo <- paste(w.result[, 2], collapse = "\n")
           xk.w.semantic.similarity <- paste(w.result[, 3], collapse = " ")
@@ -89,13 +88,12 @@ getgobp <- function(graph, z.matrix, k = 2, n.cores = 4, cutoff = 1,community = 
     return(resulttable)
   }
   else {
-    
+    print("test")
     resulttable <- foreach(i = 1:nrow(z.matrix), .combine = "rbind") %dopar% {
       
       x = rownames(z.matrix)[i]
-      
-      w <- z.matrix[i,z.matrix[i,]>cutoff]
-      
+      w <- names(z.matrix[i,z.matrix[i,]>cutoff])
+      if(length(w)==0) {return(NULL)}
       xgo <- getGO(x, all.entrez)
       if (is.null(xgo) || is.na(xgo$Pvalue) || length(xgo$Term) == 0) {
         return(NULL)
@@ -105,9 +103,9 @@ getgobp <- function(graph, z.matrix, k = 2, n.cores = 4, cutoff = 1,community = 
         }
         xgo <- paste(xgo$Term, signif(xgo$Pvalue, digits = 5), sep = ": ", collapse = "\n")
       }
+      cat("2:",x,"\n")
       
-      
-      xk <- V(graph)[unlist(neighborhood(graph, k, nodes = x))]$name
+      xk <- V(graph)[unlist(igraph::neighborhood(graph, k, nodes = x))]$name
       xkgo <- getGO(xk, all.entrez)
       
       if (is.null(xkgo) || is.na(xkgo$Pvalue) || length(xkgo$Term) == 0) {
@@ -119,8 +117,9 @@ getgobp <- function(graph, z.matrix, k = 2, n.cores = 4, cutoff = 1,community = 
         xkgo <- paste(xkgo$Term, signif(xkgo$Pvalue, digits = 5), sep = ": ", collapse = "\n")
       }
       
-      
+      cat("3:",x,"\n")
       wgo <- getGO(w,all.entrez)
+      print(wgo)
       if (is.null(wgo) || is.na(wgo$Pvalue) || length(wgo$Term) == 0) {
         return(NULL)
       } else {
@@ -129,15 +128,17 @@ getgobp <- function(graph, z.matrix, k = 2, n.cores = 4, cutoff = 1,community = 
         }
         wgo <- paste(wgo$Term, signif(wgo$Pvalue, digits = 5), sep = ": ", collapse = "\n")
       }
+      cat("4: return ",x,"\n")
       
-      if(distance) {
+      if(output.distance) {
         xk.w.semantic.similarity <- clusterSim(c(w), c(xk), combine = "avg")
-        x.w.avg.distance <- mean(shortest.paths(graph, v = w, to = x))
-        return(rbind(resulttable, cbind(x, xgo, xkgo, w, wgo, xk.w.semantic.similarity, x.w.avg.distance)))
+        x.w.avg.distance <- mean(igraph::shortest.paths(graph, v = w, to = x))
+        w <- paste(w, collapse = " ")
+        return(cbind(x, xgo, xkgo, w, wgo, xk.w.semantic.similarity, x.w.avg.distance))
       }
       else {
-        return(rbind(resulttable, cbind(x, xgo, xkgo, w, wgo)))
-        
+        w <- paste(w, collapse = " ")
+        return(cbind(x, xgo, xkgo, w, wgo))
       }
       
       
@@ -148,6 +149,7 @@ getgobp <- function(graph, z.matrix, k = 2, n.cores = 4, cutoff = 1,community = 
   }
   
 }
+
 
 
 
@@ -171,7 +173,7 @@ get.W.GO <- function(ci, member, xk, x, graph, all.entrez, term.limit) {
   
   
   xk.w.semantic.similarity <- clusterSim(c(w), c(xk), combine = "avg")
-  x.w.avg.distance <- mean(shortest.paths(graph, v = w, to = x))
+  x.w.avg.distance <- mean(igraph::shortest.paths(graph, v = w, to = x))
   w <- paste(w, collapse = " ")
   
   return(data.frame(w, wgo, xk.w.semantic.similarity, x.w.avg.distance))
