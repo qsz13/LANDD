@@ -77,10 +77,10 @@ getgobp <- function(graph, z.matrix, k = 2, n.cores = 4, cutoff = 1,community = 
           wgo <- paste(w.result[, 2], collapse = "\n")
           xk.w.semantic.similarity <- paste(w.result[, 3], collapse = " ")
           x.w.avg.distance <- paste(w.result[, 4], collapse = " ")
-          return(rbind(resulttable, cbind(x, xgo, xkgo, w, wgo, xk.w.semantic.similarity, x.w.avg.distance)))
+          return(cbind(x, xgo, xkgo, w, wgo, xk.w.semantic.similarity, x.w.avg.distance))
         }
         else {
-          return(rbind(resulttable, cbind(x, xgo, xkgo, w.result)))
+          return(cbind(x, xgo, xkgo, w.result))
         } 
       }
     }

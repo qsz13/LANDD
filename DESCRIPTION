@@ -17,6 +17,7 @@ Imports:
     GGally,
     intergraph,
     sna,
-    ggplot2
+    ggplot2,
+    modeest
 LinkingTo: Rcpp,BH
 Depends: 
