@@ -11,15 +11,20 @@
 #' @param path The path where the result graph is saved to. The default path is the original path of input graph.
 #' @return a graph of gene X, Y and W
 #' @export 
-#' 
+#' @importFrom intergraph asNetwork
+#' @importFrom GGally ggnet
+#' @importFrom ggplot2 ggsave
 visualize <- function(graph, kernel.result, x, k = 2, cutoff = 1, path = NULL) {
   
   X <- as.character(x)
   Y <- V(graph)$name[unlist(igraph::neighborhood(graph, k, nodes = X))]
   print(Y)
+  print(X)
   z <- kernel.result[X, ]
-  W <- names(z[z > cutoff])
   
+  print(z)
+  W <- names(z[z > cutoff])
+  print(W)
   subg <- induced.subgraph(graph, unique(c(X, Y, W)))
   
   type <- vector(mode = "character", length = length(V(subg)))
@@ -38,7 +43,7 @@ visualize <- function(graph, kernel.result, x, k = 2, cutoff = 1, path = NULL) {
   size <- length(V(subg))
   scale <- (17/961) * size + 1999/961
   
-  output <- ggnet(network, node.group = type, segment.size = 1, label.nodes = T, col = "black", subset.threshold = 1)
+  output <- ggnet(network, node.group = type, segment.size = 1, label.nodes = T, col = "black")
   ggsave(output, file = paste(as.character(x), ".jpg", sep = ""), path = path, w = 4, h = 3, scale = scale, 
          limitsize = FALSE)
   return(output)
@@ -93,7 +98,7 @@ visualize.community <- function(graph, kernel.result, x, k = 2, cutoff = 1, comm
   size <- length(V(subg))
   scale <- (17/961) * size + 1999/961
   
-  output <- ggnet(network, node.group = type, segment.size = 1, label.nodes = T, col = "black", subset.threshold = 1)
+  output <- ggnet(network, node.group = type, segment.size = 1, label.nodes = T, col = "black")
   
   ggsave(output, file = paste(as.character(x), ".jpg", sep = ""), path = path, w = 4, h = 3, scale = scale, 
          limitsize = FALSE)

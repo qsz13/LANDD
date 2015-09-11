@@ -24,6 +24,7 @@
 #' @import GOstats
 #' @import GOSemSim
 getgobp <- function(graph, z.matrix, k = 2, n.cores = 4, cutoff = 1,community = TRUE, community.min = 5, term.limit = NA, output.distance = TRUE) {
+  resulttable = NULL
   cl <- makeCluster(n.cores, outfile = "")
   all.entrez <- colnames(z.matrix)
   registerDoParallel(cl)
@@ -77,10 +78,10 @@ getgobp <- function(graph, z.matrix, k = 2, n.cores = 4, cutoff = 1,community = 
           wgo <- paste(w.result[, 2], collapse = "\n")
           xk.w.semantic.similarity <- paste(w.result[, 3], collapse = " ")
           x.w.avg.distance <- paste(w.result[, 4], collapse = " ")
-          return(cbind(x, xgo, xkgo, w, wgo, xk.w.semantic.similarity, x.w.avg.distance))
+          return(rbind(resulttable,cbind(x, xgo, xkgo, w, wgo, xk.w.semantic.similarity, x.w.avg.distance)))
         }
         else {
-          return(cbind(x, xgo, xkgo, w.result))
+          return(rbind(resulttable,cbind(x, xgo, xkgo, w.result)))
         } 
       }
     }
