@@ -23,7 +23,7 @@
 #' @importFrom parallel makeCluster
 #' @import GOstats
 #' @import GOSemSim
-getgobp <- function(graph, z.matrix, k = 2, n.cores = 4, cutoff = 1,community = TRUE, community.min = 5, term.limit = NA, output.distance = TRUE) {
+getgobp <- function(graph, z.matrix, k = 2, n.cores = 4, cutoff = 1,community = TRUE, community.min = 5, term.limit = NA) {
   resulttable = NULL
   cl <- makeCluster(n.cores, outfile = "")
   all.entrez <- colnames(z.matrix)
@@ -73,23 +73,14 @@ getgobp <- function(graph, z.matrix, k = 2, n.cores = 4, cutoff = 1,community = 
         return(NULL)
       } else {
         print(x)
-        if(output.distance) {
-          w <- paste(w.result[, 1], collapse = " ")
-          wgo <- paste(w.result[, 2], collapse = "\n")
-          xk.w.semantic.similarity <- paste(w.result[, 3], collapse = " ")
-          x.w.avg.distance <- paste(w.result[, 4], collapse = " ")
-          return(rbind(resulttable,cbind(x, xgo, xkgo, w, wgo, xk.w.semantic.similarity, x.w.avg.distance)))
-        }
-        else {
-          return(rbind(resulttable,cbind(x, xgo, xkgo, w.result)))
-        } 
+        return(rbind(resulttable,cbind(x, xgo, xkgo, w.result)))
       }
     }
     stopCluster(cl)
     return(resulttable)
   }
   else {
-    print("test")
+
     resulttable <- foreach(i = 1:nrow(z.matrix), .combine = "rbind") %dopar% {
       
       x = rownames(z.matrix)[i]
@@ -120,7 +111,6 @@ getgobp <- function(graph, z.matrix, k = 2, n.cores = 4, cutoff = 1,community = 
       
       cat("3:",x,"\n")
       wgo <- getGO(w,all.entrez)
-      print(wgo)
       if (is.null(wgo) || is.na(wgo$Pvalue) || length(wgo$Term) == 0) {
         return(NULL)
       } else {
@@ -131,17 +121,11 @@ getgobp <- function(graph, z.matrix, k = 2, n.cores = 4, cutoff = 1,community = 
       }
       cat("4: return ",x,"\n")
       
-      if(output.distance) {
-        xk.w.semantic.similarity <- clusterSim(c(w), c(xk), combine = "avg")
-        x.w.avg.distance <- mean(igraph::shortest.paths(graph, v = w, to = x))
-        w <- paste(w, collapse = " ")
-        return(cbind(x, xgo, xkgo, w, wgo, xk.w.semantic.similarity, x.w.avg.distance))
-      }
-      else {
-        w <- paste(w, collapse = " ")
-        return(cbind(x, xgo, xkgo, w, wgo))
-      }
-      
+
+      xk.w.semantic.similarity <- clusterSim(c(w), c(xk), combine = "avg")
+      x.w.avg.distance <- mean(igraph::shortest.paths(graph, v = w, to = x))
+      w <- paste(w, collapse = " ")
+      return(cbind(x, xgo, xkgo, w, wgo, xk.w.semantic.similarity, x.w.avg.distance))
       
       
     }

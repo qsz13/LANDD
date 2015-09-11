@@ -58,7 +58,7 @@ getGO <- function(sel.entrez, all.entrez) {
   
   summary <- getGeneric("summary")
   ov <- summary(Over.pres)
-  return(ov[ov$Size < 1000 && ov$Size > 5, ])
+  return(ov[ov$Size < 1000 & ov$Size > 5, ])
 }
 
 cutoffz <- function(z, cutoff) {
