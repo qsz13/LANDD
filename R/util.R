@@ -86,8 +86,8 @@ xw.distance <- function(graph, z.matrix, cutoff = 0.8, n.cores = 4) {
   
   cl <- makeCluster(n.cores, outfile = "")
   registerDoParallel(cl)
-  resulttable <- foreach(i = 1:length(names(wlist)), .combine = "rbind") %dopar% {
-    x <- names(wlist)[i]
+  resulttable <- foreach(j = 1:length(names(wlist)), .combine = "rbind") %dopar% {
+    x <- names(wlist)[j]
     wl <- wlist[[x]]
     distance.table <- NULL
     for (w in wl) {
@@ -99,6 +99,8 @@ xw.distance <- function(graph, z.matrix, cutoff = 0.8, n.cores = 4) {
   }
   
 }
+
+globalVariables('j') 
 
 w.distance <- function(ci, member, xk) {
   w <- names(member[member == ci])

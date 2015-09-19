@@ -5,8 +5,7 @@
 \title{Create a table to record Gene Ontology Biological Process mapping results.  Every gene W's community takes a row.}
 \usage{
 getgobp(graph, z.matrix, k = 2, n.cores = 4, cutoff = 1,
-  community = TRUE, community.min = 5, term.limit = NA,
-  output.distance = TRUE)
+  community = TRUE, community.min = 5, term.limit = NA)
 }
 \arguments{
 \item{graph}{The graph of gene network.}

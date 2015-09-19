@@ -44,7 +44,7 @@ visualize <- function(graph, kernel.result, x, k = 2, cutoff = 1, path = NULL) {
   scale <- (17/961) * size + 1999/961
   
   output <- ggnet(network, node.group = type, segment.size = 1, label.nodes = T, col = "black")
-  ggsave(output, file = paste(as.character(x), ".jpg", sep = ""), path = path, w = 4, h = 3, scale = scale, 
+  ggsave(output, filename = paste(as.character(x), ".jpg", sep = ""), path = path, width = 4, height = 3, scale = scale, 
          limitsize = FALSE)
   return(output)
 }
@@ -100,7 +100,7 @@ visualize.community <- function(graph, kernel.result, x, k = 2, cutoff = 1, comm
   
   output <- ggnet(network, node.group = type, segment.size = 1, label.nodes = T, col = "black")
   
-  ggsave(output, file = paste(as.character(x), ".jpg", sep = ""), path = path, w = 4, h = 3, scale = scale, 
+  ggsave(output, filename = paste(as.character(x), ".jpg", sep = ""), path = path, width = 4, height = 3, scale = scale, 
          limitsize = FALSE)
   return(output)
 }

@@ -5,7 +5,7 @@ Version: 0.2
 Date: 2015-05-04
 Author: Shangzhao Qiu, Yan Yan, Tianwei Yu
 Maintainer: Shangzhao Qiu <qsz1328@gmail.com>
-Description: using Liquid Association for Network Dynamics Detection
+Description: using Liquid Association for Network Dynamics Detection.
 License: GPL (>= 2)
 Imports:
     igraph,
@@ -16,8 +16,9 @@ Imports:
     GOSemSim,
     GGally,
     intergraph,
-    sna,
     ggplot2,
-    modeest
+    modeest,
+    Matrix,
+    Rcpp
 LinkingTo: Rcpp,BH
 Depends: 

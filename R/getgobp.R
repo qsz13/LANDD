@@ -134,7 +134,7 @@ getgobp <- function(graph, z.matrix, k = 2, n.cores = 4, cutoff = 1,community = 
   }
   
 }
-
+globalVariables('i')
 
 
 
