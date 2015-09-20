@@ -20,6 +20,8 @@
 #' @importFrom parallel stopCluster
 #' @importFrom fdrtool fdrtool
 #' @importFrom Matrix Matrix
+#' @importFrom Rcpp evalCpp
+#' @importFrom modeest mlv
 #' 
 #' 
 lascouting <- function(network.graph, express.matrix, k = 2, n.cores = 4) {
@@ -51,9 +53,10 @@ lascouting <- function(network.graph, express.matrix, k = 2, n.cores = 4) {
   registerDoParallel(cl)
   
   result <- foreach(i = 1:row.size) %dopar% {
-    
+    print(i)
     xy <- express.matrix[connected.list[i, 1], ] * express.matrix[connected.list[i, 2], ]
     la.vector <- c(xy %*% express.matrix.t)
+    la.vector <- la.vector - mlv(la.vector,method="shorth")$M
     lfdr <- fdrtool(la.vector, verbose = FALSE, plot = FALSE)$lfdr
     return(rownames(express.matrix)[which(lfdr < 0.2)])
     
