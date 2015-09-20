@@ -25,7 +25,4 @@ a graph of gene X, Y and W
 \description{
 \code{visualize()} generates a graph. It is used to intuitively and vividly display the layout of gene X, Y and W.
 }
-\seealso{
-\code{\link{kernel.result}}
-}
 

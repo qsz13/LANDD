@@ -9,6 +9,7 @@
 #' @param k An Integer giving the order of the network.
 #' @param n.cores The number of cores used for parallel computing.
 #' @param cutoff The threshold to find LA scouting genes.
+#' @param community Boolean. Whether compute the community of genes W or not.
 #' @param community.min Integer. The minimum number of genes numbers in a community. 
 #' @param term.limit The maximum number of GO terms to list in a row of the table.
 #' @return A table containing the IDs of scouting center genes W, over-represented GO terms by
