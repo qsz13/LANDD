@@ -11,6 +11,8 @@
 #' the ego gene id and columns represents the LA-scouting genes.
 #' @export
 #' @import igraph
+#' @importFrom Matrix Matrix
+#' 
 #' @importFrom doParallel registerDoParallel
 #' @importFrom foreach %dopar%
 #' @importFrom foreach foreach
@@ -19,7 +21,9 @@
 #' @importFrom fdrtool fdrtool
 #' @importFrom Matrix Matrix
 #' @importFrom Rcpp evalCpp
+#' 
 #' @importFrom modeest mlv
+#' 
 #' 
 lascouting <- function(network.graph, express.matrix, k = 2, n.cores = 4) {
   network.node <- V(network.graph)$name

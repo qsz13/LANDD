@@ -9,6 +9,9 @@ normalizeInput <- function(x) {
     invisible(.Call('LANDD_normalizeInput', PACKAGE = 'LANDD', x))
 }
 
+#' Normalize the input Matrix
+#' 
+#' @param x A numeric matrix
 #' @export
 normalizeInputMatrix <- function(x) {
     .Call('LANDD_normalizeInputMatrix', PACKAGE = 'LANDD', x)

@@ -32,6 +32,9 @@ void normalizeInput(NumericVector& x)
   }
 }
 
+//' Normalize the input Matrix
+//' 
+//' @param x A numeric matrix
 //' @export
 // [[Rcpp::export]]
 NumericMatrix normalizeInputMatrix(NumericMatrix& x)

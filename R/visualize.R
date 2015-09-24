@@ -4,7 +4,6 @@
 #' 
 #' @param graph The igraph object of gene network.
 #' @param kernel.result The result of graph.kd which finds genes W of a gene X.
-#' @seealso \code{\link{kernel.result}}
 #' @param x The gene the plot is generated for.
 #' @param k The degree of the neighborhood of X.
 #' @param cutoff A threshold to filter gene W.
@@ -53,12 +52,11 @@ visualize <- function(graph, kernel.result, x, k = 2, cutoff = 1, path = NULL) {
 #' with different community in different colors.
 #' \code{visualize.community()}is used to create a graph to display the layout of genes X, X's k-step neighborhood, W and their corresponding community.
 #' @param graph The igraph object of gene network.
-#' @param kernel.result The result of graph.kd which finds genes W of a gene X.
-#' @seealso \code{\link{kernel.result}} 
+#' @param kernel.result The result of graph.kd which finds genes W of a gene X. 
 #' @param x The gene the plot is generated for.
 #' @param k The degree of the neighborhood of X.
 #' @param cutoff A threshold to filter gene W.
-#' @param cummunity.min The minimum size of the community of W.
+#' @param community.min The minimum size of the community of W.
 #' @param path The path where the result graph is saved to. The default path is the original path of input graph.
 #' @return a graph displays genes X, X's k-step neighborhood, and W gene communities in different colors.
 #' @export

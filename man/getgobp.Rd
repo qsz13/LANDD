@@ -18,6 +18,8 @@ getgobp(graph, z.matrix, k = 2, n.cores = 4, cutoff = 1,
 
 \item{cutoff}{The threshold to find LA scouting genes.}
 
+\item{community}{Boolean. Whether compute the community of genes W or not.}
+
 \item{community.min}{Integer. The minimum number of genes numbers in a community.}
 
 \item{term.limit}{The maximum number of GO terms to list in a row of the table.}

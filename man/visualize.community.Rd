@@ -20,9 +20,9 @@ visualize.community(graph, kernel.result, x, k = 2, cutoff = 1,
 
 \item{cutoff}{A threshold to filter gene W.}
 
-\item{path}{The path where the result graph is saved to. The default path is the original path of input graph.}
+\item{community.min}{The minimum size of the community of W.}
 
-\item{cummunity.min}{The minimum size of the community of W.}
+\item{path}{The path where the result graph is saved to. The default path is the original path of input graph.}
 }
 \value{
 a graph displays genes X, X's k-step neighborhood, and W gene communities in different colors.
@@ -31,8 +31,5 @@ a graph displays genes X, X's k-step neighborhood, and W gene communities in dif
 visualize ego gene X, its k step neighbours, and the W gene communities: Generate a graph
 with different community in different colors.
 \code{visualize.community()}is used to create a graph to display the layout of genes X, X's k-step neighborhood, W and their corresponding community.
-}
-\seealso{
-\code{\link{kernel.result}}
 }
 
