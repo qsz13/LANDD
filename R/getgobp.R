@@ -77,8 +77,6 @@ getgobp <- function(graph, z.matrix, k = 2, n.cores = 4, cutoff = 1,community = 
       member <- membership(wc)
       
       community_index <- names(sizes(wc)[sizes(wc) > community.min])
-      
-      
       sel.entrez <- x
       xgo <- getGO(sel.entrez, all.entrez)
       
