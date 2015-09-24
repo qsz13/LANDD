@@ -51,12 +51,16 @@ lascouting <- function(network.graph, express.matrix, k = 2, n.cores = 4) {
   
   result <- foreach(i = 1:row.size) %dopar% {
     print(i)
-    xy <- express.matrix[connected.list[i, 1], ] * express.matrix[connected.list[i, 2], ]
-    la.vector <- c(xy %*% express.matrix.t)
-    la.vector <- la.vector - mlv(la.vector,method="shorth")$M
-    lfdr <- fdrtool(la.vector, verbose = FALSE, plot = FALSE)$lfdr
-    return(rownames(express.matrix)[which(lfdr < 0.2)])
-    
+    if (connected.list[i, 1] != connected.list[i, 2]){
+      xy <- express.matrix[connected.list[i, 1], ] * express.matrix[connected.list[i, 2], ]
+      la.vector <- c(xy %*% express.matrix.t)
+      la.vector <- la.vector - mlv(la.vector,method="shorth")$M
+      lfdr <- fdrtool(la.vector, verbose = FALSE, plot = FALSE)$lfdr
+      return(rownames(express.matrix)[which(lfdr < 0.2)])
+    }
+    else {
+      return(NULL)
+    }
   }
   stopCluster(cl)
   matrix.rowname = rownames(express.matrix)
@@ -69,6 +73,7 @@ lascouting <- function(network.graph, express.matrix, k = 2, n.cores = 4) {
       node.z[y, c(result[[i]])] <- 1
     }
   }
+  diag(node.z) <- 0
   return(node.z)
   
 }
