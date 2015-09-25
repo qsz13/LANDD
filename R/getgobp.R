@@ -1,3 +1,18 @@
+#' #' Create a table to record Gene Ontology Biological Process mapping results.  Every gene W's community takes a row.
+#' 
+#' \code{getgobp.community()} generates a result file of ego gene X,  significant GO terms of X, significant GO terms 
+#' of genes within k steps of X, gene W, significant GO terms  of W,
+# ’ the similarity of gene W and genes within k steps of gene X, the average distance between gene X and gene
+# W. ‘ A gene X may correspond with several W communities. Thus one community takes a row in the table.
+#' @param graph The graph of gene network.
+#' @param laresult The result of lascouting.
+#' @param z.matrix A matrix representing gene Z (selected scouting genes). Row names are the gene id in gene network.
+#' @param k An Integer giving the order of the network.
+#' @param cutoff The threshold to find LA scouting genes. 
+#' @return A table containing the IDs of scouting center genes W, over-represented GO terms by
+#'  W, semantic similarity on the Gene Ontology system between the X ego network and all 
+#'  scouting center genes, average graph distance between gene X and W. W are grouped by 
+#'  network community. Each W community occupies a row. 
 #' @export
 #' 
 get.W <- function(graph, laresult, z.matrix, cutoff, k=2) {
@@ -154,12 +169,18 @@ getgobp <- function(graph, z.matrix, k = 2, n.cores = 4, cutoff = 1,community = 
         }
         wgo <- paste(wgo$Term, signif(wgo$Pvalue, digits = 5), sep = ": ", collapse = "\n")
       }
-      cat("4: return ",x,"\n")
+      
       
 
       xk.w.semantic.similarity <- clusterSim(c(w), c(xk), combine = "avg")
       x.w.avg.distance <- mean(igraph::shortest.paths(graph, v = w, to = x))
+      if(is.infinite(x.w.avg.distance))
+      {
+        x.w.avg.distance <- median(igraph::shortest.paths(graph, v = w, to = x))
+      }
+      cat("avg: ",x.w.avg.distance,"\n")
       w <- paste(w, collapse = " ")
+      cat("4: return ",x,"\n")
       return(cbind(x, xgo, xkgo, w, wgo, xk.w.semantic.similarity, x.w.avg.distance))
       
       
