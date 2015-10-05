@@ -23,4 +23,7 @@ the ego gene id and columns represents the LA-scouting genes.
 \description{
 \code{lascouting()} is used to find the liquid association scouting gene
 }
+\examples{
+\dontrun{laresult <- lascouting(g,m,k=2,n.cores=4)}
+}
 

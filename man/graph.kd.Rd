@@ -31,4 +31,9 @@ In contrast, the second method takes the number of genes around into considerati
 multiply the square of the number of genes around.
 The third method does not normalize the data. Thus genes with more neighbors are more likely to receive higher weights.
 }
+\examples{
+\dontrun{
+relate.matrix <- lascouting(g,m,k=2,n.cores=4)
+graph.kd(relate.matrix,g,smoothing.normalize = "one")}
+}
 

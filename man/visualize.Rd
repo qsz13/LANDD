@@ -25,4 +25,9 @@ a graph of gene X, Y and W
 \description{
 \code{visualize()} generates a graph. It is used to intuitively and vividly display the layout of gene X, Y and W.
 }
+\examples{
+\dontrun{
+kernel <- graph.kd(relate.matrix,g,smoothing.normalize = "one")
+visualize(g,kernel,x,k=2,cutoff=1,path= NULL)}
+}
 

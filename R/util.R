@@ -77,6 +77,7 @@ cutoffz <- function(z, cutoff) {
 #' @param cutoff A number used to find LA scouting gene z. 
 #' @param n.cores Core number used for parallel computing.
 #' @return a table contains distance between all genes x and their correspongding genes w. 
+#' @examples \dontrun{ xw.distance(g,m,cutoff=0.8,n.cores=4)}
 #' @export
 #' 
 #' 

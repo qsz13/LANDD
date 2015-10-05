@@ -2,7 +2,7 @@
 % Please edit documentation in R/getgobp.R
 \name{get.W}
 \alias{get.W}
-\title{#' Create a table to record Gene Ontology Biological Process mapping results.  Every gene x takes a row.}
+\title{Record genes W}
 \usage{
 get.W(graph, laresult, z.matrix, cutoff, k = 2)
 }
@@ -22,7 +22,15 @@ A table records the intermediate result of Gene Ontology Biological Process whic
 the liquid association scouting genes of x and genes W.Each x occupies a row.
 }
 \description{
+\code{get.W()} creates a table to record Gene Ontology Biological Process mapping results.  Every gene x takes a row.
+}
+\details{
 \code{get.W()} generates a result file of ego gene X, genes within k steps of X,
 the liquid association scouting genes of x and genes W.Every gene x takes a row in the table.
+}
+\examples{
+\dontrun{
+laresult <- lascouting(g,m,k=2,n.cores=4)
+get.W(g,laresult,z,cutoff=0.8,k=2)}
 }
 

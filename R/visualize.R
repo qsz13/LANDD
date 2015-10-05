@@ -9,6 +9,9 @@
 #' @param cutoff A threshold to filter gene W.
 #' @param path The path where the result graph is saved to. The default path is the original path of input graph.
 #' @return a graph of gene X, Y and W
+#' @examples \dontrun{
+#' kernel <- graph.kd(relate.matrix,g,smoothing.normalize = "one")
+#' visualize(g,kernel,x,k=2,cutoff=1,path= NULL)}
 #' @export 
 #' @importFrom intergraph asNetwork
 #' @importFrom GGally ggnet
@@ -59,6 +62,9 @@ visualize <- function(graph, kernel.result, x, k = 2, cutoff = 1, path = NULL) {
 #' @param community.min The minimum size of the community of W.
 #' @param path The path where the result graph is saved to. The default path is the original path of input graph.
 #' @return a graph displays genes X, X's k-step neighborhood, and W gene communities in different colors.
+#' @examples \dontrun{
+#' kernel <- graph.kd(relate.matrix,g,smoothing.normalize = "one")
+#' visualize(g,kernel,x,k=2,cutoff=1,community.min=5,path=NULL)}
 #' @export
 #'
 visualize.community <- function(graph, kernel.result, x, k = 2, cutoff = 1, community.min = 5, path = NULL) {

@@ -1,6 +1,8 @@
-#' #' Create a table to record Gene Ontology Biological Process mapping results.  Every gene x takes a row.
+#' @title Record genes W
 #' 
-#' \code{get.W()} generates a result file of ego gene X, genes within k steps of X, 
+#' @description \code{get.W()} creates a table to record Gene Ontology Biological Process mapping results.  Every gene x takes a row.
+#' 
+#' @details \code{get.W()} generates a result file of ego gene X, genes within k steps of X, 
 #' the liquid association scouting genes of x and genes W.Every gene x takes a row in the table.
 #' @param graph The graph of gene network.
 #' @param laresult The result of lascouting which finds the liquid association scouting genes.
@@ -9,6 +11,9 @@
 #' @param cutoff The threshold to find LA scouting genes. 
 #' @return A table records the intermediate result of Gene Ontology Biological Process which contains ego gene X, genes within k steps of X, 
 #' the liquid association scouting genes of x and genes W.Each x occupies a row. 
+#' @examples \dontrun{ 
+#' laresult <- lascouting(g,m,k=2,n.cores=4)  
+#' get.W(g,laresult,z,cutoff=0.8,k=2)}
 #' @export
 #' 
 get.W <- function(graph, laresult, z.matrix, cutoff, k=2) {
@@ -63,6 +68,9 @@ get.W <- function(graph, laresult, z.matrix, cutoff, k=2) {
 #'  W, semantic similarity on the Gene Ontology system between the X ego network and all 
 #'  scouting center genes, average graph distance between gene X and W. W are grouped by 
 #'  network community. Each W community occupies a row. 
+#' @examples \dontrun{
+#' g <- graph.data.frame(as.matrix(read.table("HumanBinaryHQ_HINT.txt"))) 
+#' getgobp(g,z,k=2,n.cores=4,cutoff=1,community=TRUE,community.min=5,term.limit = NA)}
 #' @export
 #' @import igraph
 #' @importFrom doParallel registerDoParallel

@@ -16,7 +16,10 @@
 #' @param network.graph The igraph object representing the gene network.
 #' @param smoothing.normalize Different ways to normalize the result.
 #' @return A matrix representing the weights calculated using kernel density for each gene. Each row is an ego gene, columns
-#' are the weights of potential scouting genes for the gene.  
+#' are the weights of potential scouting genes for the gene. 
+#' @examples \dontrun{
+#' relate.matrix <- lascouting(g,m,k=2,n.cores=4) 
+#' graph.kd(relate.matrix,g,smoothing.normalize = "one")}
 #' @export
 #' @import igraph
 

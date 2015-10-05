@@ -32,4 +32,9 @@ visualize ego gene X, its k step neighbours, and the W gene communities: Generat
 with different community in different colors.
 \code{visualize.community()}is used to create a graph to display the layout of genes X, X's k-step neighborhood, W and their corresponding community.
 }
+\examples{
+\dontrun{
+kernel <- graph.kd(relate.matrix,g,smoothing.normalize = "one")
+visualize(g,kernel,x,k=2,cutoff=1,community.min=5,path=NULL)}
+}
 

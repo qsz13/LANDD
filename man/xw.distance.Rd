@@ -21,4 +21,7 @@ a table contains distance between all genes x and their correspongding genes w.
 \description{
 \code{xw.distance()} generates a table contains distance between all genes x and their correspongding genes w.
 }
+\examples{
+\dontrun{ xw.distance(g,m,cutoff=0.8,n.cores=4)}
+}
 

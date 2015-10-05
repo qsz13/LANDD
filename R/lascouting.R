@@ -9,6 +9,8 @@
 #' @param n.cores Number of cores used for parallel computing.
 #' @return A logical matrix representing the LA-scouting genes for each gene. Rows represent 
 #' the ego gene id and columns represents the LA-scouting genes.
+#' @examples \dontrun{laresult <- lascouting(g,m,k=2,n.cores=4)}
+#' 
 #' @export
 #' @import igraph
 #' @importFrom Matrix Matrix

@@ -34,4 +34,9 @@ A table containing the IDs of scouting center genes W, over-represented GO terms
 \code{getgobp.community()} generates a result file of ego gene X,  significant GO terms of X, significant GO terms
 of genes within k steps of X, gene W, significant GO terms  of W,
 }
+\examples{
+\dontrun{
+g <- graph.data.frame(as.matrix(read.table("HumanBinaryHQ_HINT.txt")))
+getgobp(g,z,k=2,n.cores=4,cutoff=1,community=TRUE,community.min=5,term.limit = NA)}
+}
 
