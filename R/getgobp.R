@@ -54,8 +54,8 @@ get.W <- function(graph, laresult, z.matrix, cutoff, k=2) {
 #' 
 #' \code{getgobp.community()} generates a result file of ego gene X,  significant GO terms of X, significant GO terms 
 #' of genes within k steps of X, gene W, significant GO terms  of W,
-# ’ the similarity of gene W and genes within k steps of gene X, the average distance between gene X and gene
-# W. ‘ A gene X may correspond with several W communities. Thus one community takes a row in the table.
+# ' the similarity of gene W and genes within k steps of gene X, the average distance between gene X and gene
+# W. ' A gene X may correspond with several W communities. Thus one community takes a row in the table.
 #' @param graph The graph of gene network.
 #' @param z.matrix A matrix representing gene Z (selected scouting genes). Row names are the gene id in gene network.
 #' @param k An Integer giving the order of the network.
@@ -163,7 +163,7 @@ getgobp <- function(graph, z.matrix, k = 2, n.cores = 4, cutoff = 1,community = 
         xkgo <- paste(xkgo$Term, signif(xkgo$Pvalue, digits = 5), sep = ": ", collapse = "\n")
       }
       
-      cat("3:",x,"\n")
+
       wgo <- getGO(w,all.entrez)
       if (is.null(wgo) || is.na(wgo$Pvalue) || length(wgo$Term) == 0) {
         return(NULL)
@@ -182,9 +182,9 @@ getgobp <- function(graph, z.matrix, k = 2, n.cores = 4, cutoff = 1,community = 
       {
         x.w.avg.distance <- median(igraph::shortest.paths(graph, v = w, to = x))
       }
-      cat("avg: ",x.w.avg.distance,"\n")
+      
       w <- paste(w, collapse = " ")
-      cat("4: return ",x,"\n")
+      print(x)
       return(cbind(x, xgo, xkgo, w, wgo, xk.w.semantic.similarity, x.w.avg.distance))
       
       
@@ -223,7 +223,6 @@ get.W.GO <- function(ci, member, xk, x, graph, all.entrez, term.limit) {
   {
     x.w.avg.distance <- median(igraph::shortest.paths(graph, v = w, to = x))
   }
-  print("avg: "+x.w.avg.distance)
   w <- paste(w, collapse = " ")
   
   return(data.frame(w, wgo, xk.w.semantic.similarity, x.w.avg.distance))

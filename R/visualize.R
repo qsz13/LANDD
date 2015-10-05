@@ -20,13 +20,8 @@ visualize <- function(graph, kernel.result, x, k = 2, cutoff = 1, path = NULL) {
   
   X <- as.character(x)
   Y <- V(graph)$name[unlist(igraph::neighborhood(graph, k, nodes = X))]
-  print(Y)
-  print(X)
   z <- kernel.result[X, ]
-  
-  print(z)
   W <- names(z[z > cutoff])
-  print(W)
   subg <- induced.subgraph(graph, unique(c(X, Y, W)))
   
   type <- vector(mode = "character", length = length(V(subg)))

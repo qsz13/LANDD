@@ -1,11 +1,11 @@
 Package: LANDD
 Type: Package
 Title: Liquid Association for Network Dynamics Detection
-Version: 0.2
-Date: 2015-05-04
+Version: 1.0.0
+Date: 2015-10-06
 Author: Shangzhao Qiu, Yan Yan, Tianwei Yu
 Maintainer: Shangzhao Qiu <qsz1328@gmail.com>
-Description: using Liquid Association for Network Dynamics Detection.
+Description: Using Liquid Association for Network Dynamics Detection.
 License: GPL (>= 2)
 Imports:
     igraph,
