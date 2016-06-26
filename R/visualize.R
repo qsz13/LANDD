@@ -16,6 +16,7 @@
 #' @importFrom intergraph asNetwork
 #' @importFrom GGally ggnet
 #' @importFrom ggplot2 ggsave
+#' @importFrom stats setNames
 visualize <- function(graph, kernel.result, x, k = 2, cutoff = 1, path = NULL) {
   
   X <- as.character(x)
@@ -40,7 +41,7 @@ visualize <- function(graph, kernel.result, x, k = 2, cutoff = 1, path = NULL) {
   size <- length(V(subg))
   scale <- (17/961) * size + 1999/961
   
-  output <- ggnet(network, node.group = type, segment.size = 1, label.nodes = T, col = "black")
+  output <- ggnet(network,color = "party", node.group = type, segment.size = 1, label.nodes = T, col = "black")
   ggsave(output, filename = paste(as.character(x), ".jpg", sep = ""), path = path, width = 4, height = 3, scale = scale, 
          limitsize = FALSE)
   return(output)
@@ -64,15 +65,21 @@ visualize <- function(graph, kernel.result, x, k = 2, cutoff = 1, path = NULL) {
 #'
 visualize.community <- function(graph, kernel.result, x, k = 2, cutoff = 1, community.min = 5, path = NULL) {
   X <- as.character(x)
+  cat(X,"\n")
   Y <- V(graph)$name[unlist(igraph::neighborhood(graph, k, nodes = X))]
   z <- kernel.result[X, ]
   
   W <- names(z[z > cutoff])
-  
+  #if(length(W)>200 || length(Y)>75 || length(Y)<10){
+#     cat("W: ",length(W), "\n")
+#     cat("Y:", length(Y), "\n")
+   # return()
+  #}
   wc <- getCommunity(z, graph, cutoff, community.min)
   member <- membership(wc)
+  
   community_index <- names(sizes(wc)[sizes(wc) > community.min])
-  if (length(community_index) > 7) {
+  if (length(community_index) > 6) {
     print("comunity too large.")
     return()
   }
@@ -81,14 +88,30 @@ visualize.community <- function(graph, kernel.result, x, k = 2, cutoff = 1, comm
   
   type <- rep("other", length(V(subg)))
   type <- setNames(type, V(subg)$name)
-  
+  wctotal <- 0
+  commax <- 0
   time <- 1
   for (ci in community_index) {
     w <- names(member[member == ci])
+    if(length(w)>commax){
+      commax = length(w)
+    }
+    wctotal = wctotal + length(w)
     type[w] = paste("w", time, sep = "")
     time <- time + 1
   }
-  
+  cat("wctotal: ", wctotal/length(W),"\n")
+  if(wctotal/length(W) < 0.2) {
+    return()
+  }
+cat("commax:", commax/length(Y), "\n")
+if(commax < 10){
+  return()
+}
+  if(commax/length(Y) < 0.3){
+    
+    return()
+  }
   type[Y] <- "Y"
   
   type[X] <- "X"
@@ -96,8 +119,8 @@ visualize.community <- function(graph, kernel.result, x, k = 2, cutoff = 1, comm
   network <- asNetwork(subg)
   size <- length(V(subg))
   scale <- (17/961) * size + 1999/961
-  
-  output <- ggnet(network, node.group = type, segment.size = 1, label.nodes = T, col = "black")
+
+  output <- GGally::ggnet2(network,alpha=0.8,color = type,palette = "Set1",label.size =8,legend.size=30,edge.size=2, size=18,layout.par = list(cell.pointpointrad=99,cell.pointcellrad=99,cell.cellcellrad=999,repulse.rad=29999),label = T)
   
   ggsave(output, filename = paste(as.character(x), ".jpg", sep = ""), path = path, width = 4, height = 3, scale = scale, 
          limitsize = FALSE)

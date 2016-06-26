@@ -1,4 +1,4 @@
-#' @title Record genes W
+   #' @title Record genes W
 #' 
 #' @description \code{get.W()} creates a table to record Gene Ontology Biological Process mapping results.  Every gene x takes a row.
 #' 
@@ -15,6 +15,7 @@
 #' laresult <- lascouting(g,m,k=2,n.cores=4)  
 #' get.W(g,laresult,z,cutoff=0.8,k=2)}
 #' @export
+#' @importFrom stats median
 #' 
 get.W <- function(graph, laresult, z.matrix, cutoff, k=2) {
   xlist = row.names(z.matrix)
@@ -36,9 +37,6 @@ get.W <- function(graph, laresult, z.matrix, cutoff, k=2) {
   }
   colnames(LANDDList)<-c("x","y","z","w:w_value")
   return(LANDDList)
-
-  
-  
 } 
   
   

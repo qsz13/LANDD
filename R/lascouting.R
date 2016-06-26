@@ -38,7 +38,7 @@ lascouting <- function(network.graph, express.matrix, k = 2, n.cores = 4) {
     common.node <- network.node
   }
   size <- length(common.node)
-  
+  cat(size)
   express.matrix <- normalizeInputMatrix(express.matrix)
   
   if (k != 1) {
@@ -49,7 +49,8 @@ lascouting <- function(network.graph, express.matrix, k = 2, n.cores = 4) {
   }
   row.size <- nrow(connected.list)
   express.matrix.t <- t(express.matrix)/ncol(express.matrix)
-  
+  print("done")
+  print(row.size)
   cl <- makeCluster(n.cores, outfile = "")
   registerDoParallel(cl)
   
