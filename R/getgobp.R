@@ -1,4 +1,4 @@
-   #' @title Record genes W
+#' @title Record genes W
 #' 
 #' @description \code{get.W()} creates a table to record Gene Ontology Biological Process mapping results.  Every gene x takes a row.
 #' 
@@ -19,8 +19,8 @@
 #' 
 get.W <- function(graph, laresult, z.matrix, cutoff, k=2) {
   xlist = row.names(z.matrix)
-  LANDDdata <- setRefClass("LANDDdata",
-                         fields = list(x = "character", y = "character"))
+  #LANDDdata <- setRefClass("LANDDdata",
+  #                       fields = list(x = "character", y = "character"))
   LANDDList<-c()
   for(x in xlist){
     if(sum(laresult[x,])!=0 && length(z.matrix[x,][z.matrix[x,]>cutoff])!=0){
@@ -34,6 +34,10 @@ get.W <- function(graph, laresult, z.matrix, cutoff, k=2) {
       w = paste(paste(names(w),w,sep=":"),collapse = " ")
       LANDDList <- rbind(LANDDList,cbind(x,y,z,w))
     }
+  }
+  if(is.null(LANDDList)) {
+    print("cutoff too high.")
+    return(NULL)
   }
   colnames(LANDDList)<-c("x","y","z","w:w_value")
   return(LANDDList)

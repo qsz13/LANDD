@@ -21,4 +21,5 @@ Imports:
     Matrix,
     Rcpp
 LinkingTo: Rcpp,BH
-Depends: 
+Depends:
+RoxygenNote: 5.0.1

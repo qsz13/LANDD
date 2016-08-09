@@ -41,6 +41,7 @@ visualize <- function(graph, kernel.result, x, k = 2, cutoff = 1, path = NULL) {
   size <- length(V(subg))
   scale <- (17/961) * size + 1999/961
   
+  print(type)
   output <- ggnet(network,color = "party", node.group = type, segment.size = 1, label.nodes = T, col = "black")
   ggsave(output, filename = paste(as.character(x), ".jpg", sep = ""), path = path, width = 4, height = 3, scale = scale, 
          limitsize = FALSE)

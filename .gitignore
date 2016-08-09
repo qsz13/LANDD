@@ -7,3 +7,4 @@ src/*.dll
 *.csv
 HumanBinaryHQ_HINT.txt
 GSE10255_entrez.bin
+..Rcheck
