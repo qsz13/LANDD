@@ -3,6 +3,7 @@
 export(get.W)
 export(getgobp)
 export(graph.kd)
+export(la.simu.given.xy)
 export(lascouting)
 export(normalizeInputMatrix)
 export(simulateLANDD)
