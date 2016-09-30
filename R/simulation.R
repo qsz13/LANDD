@@ -19,7 +19,8 @@ simulateLANDD<-function(rho, n.sample, z.percent,k,kernel.sd,normalize.method ) 
     
     #degree is the number of 2 step neighbours
     #
-  }degree.step = igraph::degree(simu.g.step)
+  }
+  degree.step = igraph::degree(simu.g.step)
   
   
   egonodes = V(simu.g)[which(degree.step<=40 & degree.step>=20)] #filter out nodes with 20<= neighbour<=40
@@ -68,7 +69,7 @@ simulateLANDD<-function(rho, n.sample, z.percent,k,kernel.sd,normalize.method ) 
   m = simu.matrix
   
   #LANDD
-  lamatrix = lascouting(g,m,k=k,n.cores=48)
+  lamatrix = lascouting(g,m,k=k,n.cores=4)
   kd = graph.kd(lamatrix,g, kernel.sd=kernel.sd,smoothing.normalize=normalize.method)
   
   la.x = kd[as.character(XY.ego.node),]#get the kernel result of X
