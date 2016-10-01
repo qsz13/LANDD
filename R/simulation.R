@@ -1,5 +1,17 @@
 #######generate graph and matrix######
+#' Simulate LANDD
+#' 
+#' @param rho Strength of LA correlation
+#' @param n.sample sample number for LA
+#' @param z.percent percentage of z in sample
+#' @param k k step neighbour
+#' @param kernel.sd standard deviation for kernel
+#' @param normalize.method Different ways to normalize the result
+#' @return simulated data for LANDD
+#' @import igraph
 #' @importFrom mvtnorm rmvnorm
+#' @importFrom pROC roc
+#' @importFrom utils tail
 #' @export
 simulateLANDD<-function(rho, n.sample, z.percent,k,kernel.sd,normalize.method ) {
   n.gene = 5000
@@ -7,7 +19,7 @@ simulateLANDD<-function(rho, n.sample, z.percent,k,kernel.sd,normalize.method ) 
   neighbor.correlation = 0.4
   
   #generate graph
-  simu.g = LANDD:::createnet(n.gene, net.density)
+  simu.g = createnet(n.gene, net.density)
   
   #generate expression matrix
   s<-shortest.paths(simu.g)
@@ -33,20 +45,10 @@ simulateLANDD<-function(rho, n.sample, z.percent,k,kernel.sd,normalize.method ) 
   
   XY.ego.node = egonodes[pair[1]] #node with larger egonet as center of XY
   Z.ego.node = egonodes[pair[2]] #node with smaller wgonet as center of Z
-  #
-  #print(XY.ego.node)
-  
-  #print(V(simu.g)[XY.ego.node])
-  #print(typeof(V(simu.g)[XY.ego.node]))
   
   XY.nodes =  unlist(igraph::neighborhood(simu.g, k, nodes = XY.ego.node)) #XY egonet nodes including ego x
   Z.nodes =  unlist(igraph::neighborhood(simu.g, k, nodes = Z.ego.node)) #Z egonet nodes including ego w
   Y.nodes = XY.nodes[which(XY.nodes!=XY.ego.node)]
-  
-  # XY.ego.node = as.character(XY.ego.node)
-  # XY.nodes = as.character(XY.nodes)
-  # Z.nodes = as.character(Z.nodes)
-  # Y.nodes = as.character(Y.nodes)
   
   
   replace.times = floor((length(Z.nodes)*z.percent))# replace z
@@ -74,19 +76,8 @@ simulateLANDD<-function(rho, n.sample, z.percent,k,kernel.sd,normalize.method ) 
   
   la.x = kd[as.character(XY.ego.node),]#get the kernel result of X
   la.x = la.x[! names(la.x) %in% XY.nodes]
-  # w = names(tail(sort(kd[as.character(XY.ego.node),]),replace.times*2))
   w = names(tail(sort(la.x),replace.times*2))
   common = intersect(Z.sample, w)
-  
-  # subg <- induced.subgraph(simu.g, unique(c(XY.nodes, w,Z.sample)))
-  # type <- rep("not found", length(V(subg)))
-  # type <- setNames(type, V(subg)$name)
-  # type[as.character(XY.nodes)] = "XY"
-  # type[as.character( w)] = "w"
-  # type[as.character(common )] = "found"
-  # type[as.character(Z.ego.node)] = "Z"
-  # type[as.character(XY.ego.node)] = "X"
-  # ggnet2(subg, color=type,palette = "Set1")
   
   #roc
   g.name = V(simu.g)$name 
@@ -100,22 +91,15 @@ simulateLANDD<-function(rho, n.sample, z.percent,k,kernel.sd,normalize.method ) 
   
   
   
-  modelroc<-roc(response,predictor)
+  modelroc<-pROC::roc(response,predictor)
   modelroc$auc
-  plot(modelroc, smooth = TRUE, print.auc=TRUE, auc.polygon=TRUE, grid=c(0.1, 0.2),
-       grid.col=c("green", "red"), max.auc.polygon=TRUE,
-       auc.polygon.col="skyblue", print.thres=TRUE)
   return(modelroc$auc)
-  #result = get.W(g,lamatrix,kd,cutoff=0.4)
-  
-  
-  
   
 }
 
 simulateLANDD3<-function(n.gene,net.density,rho,neighbor.correlation,n.sample,z.percent) {
   #generate graph
-  simu.g = LANDD:::createnet(n.gene, net.density)
+  simu.g = createnet(n.gene, net.density)
   
   #generate expression matrix
   s<-shortest.paths(simu.g)
@@ -165,9 +149,11 @@ simulateLANDD3<-function(n.gene,net.density,rho,neighbor.correlation,n.sample,z.
 
 #### simulate a gene triplet with LA relations
 ### the three columns in the output are X, Y and Z genes
+#' @importFrom mvtnorm rmvnorm
+#' @importFrom stats rnorm
+
 la.simu<-function(n, rho)
 {
-  library(mvtnorm)
   z<-rnorm(n)
   z<-sort(z)
   
@@ -177,8 +163,8 @@ la.simu<-function(n, rho)
   sigma.z.low<-matrix(c(1,-rho,-rho,1),ncol=2)
   sigma.z.high<-matrix(c(1,rho, rho,1),ncol=2)
   
-  xy.z.low<-rmvnorm(round(n/3), mean=c(0,0), sigma=sigma.z.low)
-  xy.z.high<-rmvnorm(round(n/3), mean=c(0,0), sigma=sigma.z.high)
+  xy.z.low<-mvtnorm::rmvnorm(round(n/3), mean=c(0,0), sigma=sigma.z.low)
+  xy.z.high<-mvtnorm::rmvnorm(round(n/3), mean=c(0,0), sigma=sigma.z.high)
   
   x[1:round(n/3)]<-xy.z.low[,1]
   y[1:round(n/3)]<-xy.z.low[,2]
@@ -192,15 +178,13 @@ la.simu<-function(n, rho)
 ###
 #######generate graph and matrix######
 #' @importFrom mvtnorm rmvnorm
-#' @export
 la.simu.given.xy<-function(x, y, rho) # here rho is the correlation strength between x*y and z
 {
-  library(mvtnorm)
   xy<-x*y
   r<-rank(xy)
   
   sigma.z.w<-matrix(c(1,rho, rho,1),ncol=2)
-  zw<-rmvnorm(length(x), mean=c(0,0), sigma=sigma.z.w)
+  zw<-mvtnorm::rmvnorm(length(x), mean=c(0,0), sigma=sigma.z.w)
   #w is the second column. It is an auxilary variable, whose order will help establish correlation between xy and z
   
   zw<-zw[order(zw[,2]),]
@@ -210,8 +194,8 @@ la.simu.given.xy<-function(x, y, rho) # here rho is the correlation strength bet
   return(z)
 }
 ####simulate a network######
+#' @import igraph
 createnet<-function(num.gene,netdensity){
-  library(igraph)
-  g<-barabasi.game(num.gene,m=netdensity)
+  g<-igraph::barabasi.game(num.gene,m=netdensity)
   return(g)
 }

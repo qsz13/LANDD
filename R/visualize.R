@@ -42,7 +42,7 @@ visualize <- function(graph, kernel.result, x, k = 2, cutoff = 1, path = NULL) {
   scale <- (17/961) * size + 1999/961
   
   print(type)
-  output <- ggnet(network,color = "party", node.group = type, segment.size = 1, label.nodes = T, col = "black")
+  output <- GGally::ggnet2(network,alpha=0.8,color = type,palette = "Set1",label.size =8,legend.size=30,edge.size=2, size=18,layout.par = list(cell.pointpointrad=99,cell.pointcellrad=99,cell.cellcellrad=999,repulse.rad=29999),label = T)
   ggsave(output, filename = paste(as.character(x), ".jpg", sep = ""), path = path, width = 4, height = 3, scale = scale, 
          limitsize = FALSE)
   return(output)

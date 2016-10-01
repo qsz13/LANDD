@@ -14,7 +14,8 @@
 #' 
 #' @param relate.matrix The matrix returned by lascouting.
 #' @param network.graph The igraph object representing the gene network.
-#' @param smoothing.normalize Different ways to normalize the result.
+#' @param smoothing.normalize Different ways to normalize the result, default would be "one".
+#' @param kernel.sd standard deviation for kernel, default would be 1.
 #' @return A matrix representing the weights calculated using kernel density for each gene. Each row is an ego gene, columns
 #' are the weights of potential scouting genes for the gene. 
 #' @examples \dontrun{
